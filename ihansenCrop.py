@@ -38,7 +38,7 @@ if __name__ == '__main__':
     }
 
     size = (1242,2688)
-    riato = size[0]/size[1]
+    riato = float(size[0])/size[1]
 
     for cate in catalogues:
         folder = os.getcwd()+'/wallpaper/'+cate+'/'
@@ -52,36 +52,40 @@ if __name__ == '__main__':
                 continue
             im = Image.open(pndPath)
             img_size = im.size
-            print("图片宽度和高度分别是{}".format(img_size))
             x = 0
             y =0
             w = size[0]
             h = size[1]
-            img_riato = size[0]/size[1]
-            if img_riato>riato:
+            img_riato = float(img_size[0])/img_size[1]
+            print("图片宽度和高度分别是{}".format(img_size))
+            if img_riato > riato:
                 h = img_size[1]
-                w = h/size[1]*size[0]
+                w = float(h)/size[1]*size[0]
                 y = 0
                 if (img_size[0]>size[0]):
-                    x = (img_size[0] - size[0])/2
+                    x = (float(img_size[0])- w)/2 
+                    print('x:' +str(x)+' y:'+str(y)+' w:'+str(w)+' h:'+str(h) +' img_r:'+str(img_riato)+' r:'+str(riato))
                     cropImage = im.crop((x, y, x+w, y+h))
                     resize = cropImage.resize((size[0],size[1]))
-                    resize.save(pndPath)
+                    cropImage.save(pndPath)
                 else:
-                    x = (size[0] - img_size[0])/2
+                    x = float(x)/2 - float(img_size[0])/2
+                    print('x:' +str(x)+' y:'+str(y)+' w:'+str(w)+' h:'+str(h) +' img_r:'+str(img_riato)+' r:'+str(riato))
                     cropImage = im.crop((x, y, x+w, y+h))
                     cropImage.save(pndPath)
             else :
                 w = img_size[0]
-                h = w/size[0]*size[1]
+                h = float(w)/size[0]*size[1]
                 x = 0
-                if (img_size[0]>size[0]):
-                    y = (img_size[0] - size[0])/2
+                if (img_size[1]>size[1]):
+                    y = float(img_size[1])/2 - float(h)/2
+                    print('x:' +str(x)+' y:'+str(y)+' w:'+str(w)+' h:'+str(h) +' img_r:'+str(img_riato)+' r:'+str(riato))
                     cropImage = im.crop((x, y, x+w, y+h))
                     resize = cropImage.resize((size[0],size[1]))
                     resize.save(pndPath)
                 else :
-                    y = (size[0] - img_size[0])/2
+                    y = float(h)/2 - float(img_size[1])/2
+                    print('x:' +str(x)+' y:'+str(y)+' w:'+str(w)+' h:'+str(h) +' img_r:'+str(img_riato)+' r:'+str(riato))
                     cropImage = im.crop((x, y, x+w, y+h))
                     cropImage.save(pndPath)
 

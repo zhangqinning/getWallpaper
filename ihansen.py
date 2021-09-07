@@ -13,7 +13,7 @@ if __name__ == '__main__':
         'User-Agent':'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/92.0.4515.159 Safari/537.36 Edg/92.0.902.84'
     }
     page = 0
-    perPage = 2
+    perPage = 20
     params = {
         'page':0,
         'perPage':perPage,
@@ -24,28 +24,28 @@ if __name__ == '__main__':
     }
     payload={}
     catalogues = {
-        # '风景':'landscape',
-        # '城市':'city',
-        # '春天':'spring',
-        # '色彩':'color',
-        # '黑白':'black-and-white',
-        # '艺术':'art',
-        # '天空':'sky',
-        # '森林':'forest',
-        # '散景':'bokeh',
-        # '夜空':'night',
-        # '地平线':'horizon',
-        # '灯光':'light',
-        # '公路':'road',
-        # '桥':'bridge',
-        # '庙宇':'temple',
-        # '建筑':'architecture',
-        # '云朵':'cloud',
-        # '山峰':'moutain',
-        # '大海':'ocean',
-        # '冰雪':'ice',
-        # '雪景':'snow',
-        # '星空':'star',
+        '风景':'landscape',
+        '城市':'city',
+        '春天':'spring',
+        '色彩':'color',
+        '黑白':'black-and-white',
+        '艺术':'art',
+        '天空':'sky',
+        '森林':'forest',
+        '散景':'bokeh',
+        '夜空':'night',
+        '地平线':'horizon',
+        '灯光':'light',
+        '公路':'road',
+        '桥':'bridge',
+        '庙宇':'temple',
+        '建筑':'architecture',
+        '云朵':'cloud',
+        '山峰':'moutain',
+        '大海':'ocean',
+        '冰雪':'ice',
+        '雪景':'snow',
+        '星空':'star',
         '动物':'animal'
     }
 
@@ -62,7 +62,11 @@ if __name__ == '__main__':
             for imageInfo in images:
                 info = json.dumps(imageInfo)
                 infoJson = json.loads(info)
-                url = infoJson["info"]["urls"]["raw"]
+                try:
+                    url = infoJson["info"]["urls"]["raw"]
+                    print(url)
+                except KeyError:
+                    continue
                 cataloguelist.append(url)
         saveImageUrls[catalogueKey]= cataloguelist
         
