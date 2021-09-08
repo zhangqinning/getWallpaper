@@ -42,11 +42,15 @@ if __name__ == '__main__':
 
     for cate in catalogues:
         folder = os.getcwd()+'/wallpaper/'+cate+'/'
+        outfolder = os.getcwd()+'/wallpaper_crop/'+cate+'/'
         if not os.path.exists(folder):
             continue
+        if not os.path.exists(outfolder):
+            os.makedirs(outfolder)
         pngs = [ f for f in listdir(folder) if isfile(join(folder,f)) ]
         for png in pngs:
             pndPath =os.getcwd()+'/wallpaper/'+cate+'/'+png
+            outPath =os.getcwd()+'/wallpaper_crop/'+cate+'/'+png
             print(pndPath)
             if pndPath.endswith('.DS_Store'):
                 continue
@@ -67,12 +71,12 @@ if __name__ == '__main__':
                     print('x:' +str(x)+' y:'+str(y)+' w:'+str(w)+' h:'+str(h) +' img_r:'+str(img_riato)+' r:'+str(riato))
                     cropImage = im.crop((x, y, x+w, y+h))
                     resize = cropImage.resize((size[0],size[1]))
-                    cropImage.save(pndPath)
+                    cropImage.save(outPath)
                 else:
                     x = float(x)/2 - float(img_size[0])/2
                     print('x:' +str(x)+' y:'+str(y)+' w:'+str(w)+' h:'+str(h) +' img_r:'+str(img_riato)+' r:'+str(riato))
                     cropImage = im.crop((x, y, x+w, y+h))
-                    cropImage.save(pndPath)
+                    cropImage.save(outPath)
             else :
                 w = img_size[0]
                 h = float(w)/size[0]*size[1]
@@ -82,12 +86,12 @@ if __name__ == '__main__':
                     print('x:' +str(x)+' y:'+str(y)+' w:'+str(w)+' h:'+str(h) +' img_r:'+str(img_riato)+' r:'+str(riato))
                     cropImage = im.crop((x, y, x+w, y+h))
                     resize = cropImage.resize((size[0],size[1]))
-                    resize.save(pndPath)
+                    resize.save(outPath)
                 else :
                     y = float(h)/2 - float(img_size[1])/2
                     print('x:' +str(x)+' y:'+str(y)+' w:'+str(w)+' h:'+str(h) +' img_r:'+str(img_riato)+' r:'+str(riato))
                     cropImage = im.crop((x, y, x+w, y+h))
-                    cropImage.save(pndPath)
+                    cropImage.save(outPath)
 
             # if img_size[0]>size[0] and img_size[1]>size[1]:
             #     if img_size[0]>img_size[1]:
