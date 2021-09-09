@@ -3,6 +3,7 @@
 import requests
 import json
 import os
+import io
 import sys
 reload(sys)
 sys.setdefaultencoding("utf-8")
@@ -26,11 +27,11 @@ if __name__ == '__main__':
     catalogues = {
         '风景':'landscape',
         '城市':'city',
-        '春天':'spring',
+        # '春天':'spring',
         '色彩':'color',
         '黑白':'black-and-white',
         '艺术':'art',
-        '天空':'sky',
+        # '天空':'sky',
         '森林':'forest',
         '散景':'bokeh',
         '夜空':'night',
@@ -45,7 +46,7 @@ if __name__ == '__main__':
         '大海':'ocean',
         '冰雪':'ice',
         '雪景':'snow',
-        '星空':'star',
+        # '星空':'star',
         '动物':'animal'
     }
 
@@ -55,7 +56,7 @@ if __name__ == '__main__':
         print(tag)
         params['tag'] = tag
         cataloguelist = list()
-        for index in range(perPage):
+        for index in range(20):
             params['page'] = index
             response = requests.request("GET",imagesUrl,headers=headers,data=payload,params=params)
             images = json.loads(response.text)
@@ -69,24 +70,44 @@ if __name__ == '__main__':
                     continue
                 cataloguelist.append(url)
         saveImageUrls[catalogueKey]= cataloguelist
-        
-    # for catalogueKey in saveImageUrls:
-    #     for url in saveImageUrls[catalogueKey]:
-    #         print(catalogueKey + ' ' +url)
 
-    for catalogueKey in saveImageUrls:
         folder = os.getcwd()+'/wallpaper/'+catalogueKey+'/'
         print(folder)
         if not os.path.exists(folder):
             os.makedirs(folder)
         index = 1
-
-        for url in saveImageUrls[catalogueKey]:
-            print(catalogueKey +' '+url)   
+        for url in cataloguelist:
+            print('下载 >>> '+ catalogueKey +' '+url)   
             response = requests.request("GET",url).content
             final = folder+str(index)+'.png'
             with open(final,'wb') as fp:
                 fp.write(response)
             index = index + 1
+        print(catalogueKey+'类型下载完成')
+
+        # folder = os.getcwd()+'/wallpaper_json/'+catalogueKey+'/'
+        # if not os.path.exists(folder):
+        #     os.makedirs(folder)
+        # jsonfile = os.getcwd()+'/wallpaper_json/'+catalogueKey+'.json'
+        # fp = io.open(jsonfile,'w',encoding='utf-8')
+        # json.dump(cataloguelist.decode('gbk'),fp=fp,ensure_ascii=False)
+    # for catalogueKey in saveImageUrls:
+    #     for url in saveImageUrls[catalogueKey]:
+    #         print(catalogueKey + ' ' +url)
+
+    # for catalogueKey in saveImageUrls:
+    #     folder = os.getcwd()+'/wallpaper/'+catalogueKey+'/'
+    #     print(folder)
+    #     if not os.path.exists(folder):
+    #         os.makedirs(folder)
+    #     index = 1
+
+    #     for url in saveImageUrls[catalogueKey]:
+    #         print(catalogueKey +' '+url)   
+    #         response = requests.request("GET",url).content
+    #         final = folder+str(index)+'.png'
+    #         with open(final,'wb') as fp:
+    #             fp.write(response)
+    #         index = index + 1
 
     
